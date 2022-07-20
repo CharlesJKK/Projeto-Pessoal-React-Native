@@ -25,7 +25,7 @@ const Lista = [
         image: require('../scr/assets/mal.png'),
         now: false,
         data: "Ontem, 22 de janeiro",
-        humor: "MAL",
+        humor: "ACABADO",
         hora: '08:35',
         icon: {
             primeiroIcon: 'drink',

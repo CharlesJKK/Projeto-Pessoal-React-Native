@@ -21,7 +21,7 @@ export default function VisuHumor ({ route, navigation }) {
 
     const cores = {
         BEM: '#E24B4B',
-        MAL: '#4B75E2',
+        ACABADO: '#4B75E2',
         TRISTE: '#4BE263'
     } 
     return(

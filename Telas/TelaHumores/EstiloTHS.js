@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
         padding: 20,
         left: 15,
         top: 5
+    }, imagem:{
+        padding: 30
     }, dataConteiner:{
         position: 'absolute',
         padding: 10
