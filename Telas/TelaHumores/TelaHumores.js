@@ -9,7 +9,7 @@ import Lista from "./dados";
 
 const cores = {
     BEM: '#E24B4B',
-    MAL: '#4B75E2',
+    ACABADO: '#4B75E2',
     TRISTE: '#4BE263'
 }
 
@@ -18,7 +18,7 @@ export default function TelaH({ navigation }) {
         <View style={styles.fundo}>
         <TouchableOpacity style={styles.caixa} onPress={() => navigation.navigate('VisuHumor', item)}>
             <View style={styles.imagemConteiner}>
-                <Image source={item.image}/>
+                <Image source={item.image} style={styles.imagem}/>
             </View>
             <View style={styles.dataConteiner}>
                 <Text style={styles.data}>{item.now ? `Hoje, ${item.data}` : item.data}</Text>

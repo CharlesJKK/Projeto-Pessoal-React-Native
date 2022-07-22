@@ -18,7 +18,7 @@ function Add(){
     const navigation = useNavigation();
     return(
         <TouchableOpacity style={styles1.botaoadd}
-            onPress={() => navigation.navigate('Humores')}>
+            onPress={() => navigation.navigate('AdicionarHumor')}>
             <Icone name='pluscircle' size={50} color='#304FFE'/>
         </TouchableOpacity>
     )

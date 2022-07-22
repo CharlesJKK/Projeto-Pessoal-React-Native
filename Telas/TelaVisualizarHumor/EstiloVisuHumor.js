@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 150,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection: 'row'
 
   }, imagemH:{
 
