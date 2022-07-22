@@ -66,10 +66,11 @@ const styles = StyleSheet.create({
         padding: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row',
+        flexDirection: 'row'
+    }, opacidadeHumor:{
         backgroundColor: '#304FFE',
-        borderRadius: 50,
-        opacity:1
+        borderColor: '#304FFE',
+        borderRadius: 50
     }, textoHumor:{
         color: '#969696',
         position: 'absolute',
@@ -109,13 +110,20 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems: 'center',
         bottom: 80
+    }, fundoAtividade:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10
+    }, fundoAtividadeAtivado:{
+        backgroundColor: '#304FFE',
+        borderRadius: 50
     }, iconEsquerda:{
         borderColor: 'black',
         borderWidth: 1,
         position: 'absolute',
         borderRadius: 50,
         left: 30,
-        padding: 5,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row'
@@ -124,7 +132,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         position: 'absolute',
         borderRadius: 50,
-        padding: 5,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row'
@@ -134,16 +141,17 @@ const styles = StyleSheet.create({
         position: 'absolute',
         borderRadius: 50,
         right: 30,
-        padding: 5,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row'
+    }, corIcon:{
+        color: 'black'
     }, textoicon:{
         position: 'absolute',
         fontWeight: 'bold',
         fontSize: 12,
         color: 'black',
-        bottom: -24
+        bottom: -32
     }, conteinerTexto:{
         width: 345,
         height: 89,

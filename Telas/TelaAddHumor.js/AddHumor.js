@@ -1,8 +1,10 @@
 import React, {Component, useState} from 'react';
-import {Text, View, Image, StyleSheet, TouchableOpacity, ScrollView, TextInput} from 'react-native';
+import {Text, View, Image, TouchableOpacity, ScrollView, TextInput} from 'react-native';
 import  Icon  from 'react-native-vector-icons/Entypo';
 import styles from './AddHumorEstilo';
 import { useNavigation } from "@react-navigation/native";
+import MudancaFundoHumores from './componentes/MudancaFundoHumor';
+import MudancaFundoAtividades from './componentes/MudancaFundoAtividade';
 
 function BotaoX(){
     const navigation = useNavigation()
@@ -26,6 +28,7 @@ function BotaoSalvar(){
 
 
 function AddH(){
+
     return(
             <View style={styles.conteinerFundo}>
                 <BotaoX/>
@@ -43,81 +46,9 @@ function AddH(){
                     </View>
                 </View>
                 <View style={styles.conteinerHumores}>
-                    <TouchableOpacity onPress={() => {}}>
-                        <View style={styles.humores}>
-                            <Image source={require('../scr/assets/morideri.png')}/>
-                            <Text style={styles.textoHumor}>RADIANTE</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={styles.humores}>
-                            <Image source={require('../scr/assets/bem.png')}/>
-                            <Text style={styles.textoHumor}>FELIZ</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={styles.humores}>
-                            <Image source={require('../scr/assets/reacao.png')}/>
-                            <Text style={styles.textoHumor}>OK</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={styles.humores}>
-                            <Image source={require('../scr/assets/triste.png')}/>
-                            <Text style={styles.textoHumor}>TRISTE</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={styles.humores}>
-                            <Image source={require('../scr/assets/mal.png')}/>
-                            <Text style={styles.textoHumor}>ACABADO</Text>
-                        </View>
-                    </TouchableOpacity>
+                    <MudancaFundoHumores/>
                 </View>
-                <View style={styles.conteinerAcao}>
-                    <View style={styles.conteinericonCima}>
-                        <TouchableOpacity style={styles.iconEsquerda}>
-                            <Icon name='moon' color={'black'} size={40}></Icon>
-                            <Text style={styles.textoicon}>descanso</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.iconMeio}>
-                            <Icon name='heart' color={'black'} size={40}></Icon>
-                            <Text style={styles.textoicon}>encontro</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.iconDireita}>
-                            <Icon name='laptop' color={'black'} size={40}></Icon>
-                            <Text style={styles.textoicon}>filmes e séries</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.conteinericonMeio}>
-                    <TouchableOpacity style={styles.iconEsquerda}>
-                            <Icon name='shopping-cart' color={'black'} size={40}></Icon>
-                            <Text style={styles.textoicon}>compras</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.iconMeio}>
-                            <Icon name='app-store' color={'black'} size={40}></Icon>
-                            <Text style={styles.textoicon}>boa refeição</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.iconDireita}>
-                            <Icon name='drink' color={'black'} size={40}></Icon>
-                            <Text style={styles.textoicon}>festa</Text>
-                        </TouchableOpacity> 
-                    </View>
-                    <View style={styles.conteinericonBaixo}>
-                    <TouchableOpacity style={styles.iconEsquerda}>
-                            <Icon name='dribbble' color={'black'} size={40}></Icon>
-                            <Text style={styles.textoicon}>esporte</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.iconMeio}>
-                            <Icon name='bowl' color={'black'} size={40}></Icon>
-                            <Text style={styles.textoicon}>cozinhar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.iconDireita}>
-                            <Icon name='game-controller' color={'black'} size={40}></Icon>
-                            <Text style={styles.textoicon}>jogos</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                    <MudancaFundoAtividades/>
                 <TextInput
                     style={styles.conteinerTexto}
                     placeholderTextColor="#969696"   

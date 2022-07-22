@@ -6,6 +6,7 @@ import { ScreenStack } from 'react-native-screens';
 import Humores from './Telas/TelaHumores/TelaHumores'
 import VisuHumor from './Telas/TelaVisualizarHumor/VisuHumor';
 import Opcoes from './Telas/Opções/Opcoes';
+import AdicionarHumor from './Telas/TelaAddHumor.js/AddHumor';
 
 const Stack = createNativeStackNavigator()
 
@@ -21,6 +22,9 @@ export default function App(){
           <Stack.Screen name = 'Humores' component={Humores}
           options={{title: null, headerTransparent: true, headerShown: false}}/>
           <Stack.Screen name = 'VisuHumor' component={VisuHumor}
+          options={{title: null, headerTransparent: true, headerShown: false}}
+          />
+          <Stack.Screen name ='AdicionarHumor' component={AdicionarHumor}
           options={{title: null, headerTransparent: true, headerShown: false}}
           />
           <Stack.Screen name = 'Opcoes' component={Opcoes}
