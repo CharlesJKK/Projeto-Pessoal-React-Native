@@ -7,6 +7,7 @@ import Humores from './Telas/TelaHumores/TelaHumores'
 import VisuHumor from './Telas/TelaVisualizarHumor/VisuHumor';
 import Opcoes from './Telas/Opções/Opcoes';
 import AdicionarHumor from './Telas/TelaAddHumor.js/AddHumor';
+import EditarPerfil from './Telas/Opções/EditPerfil';
 
 const Stack = createNativeStackNavigator()
 
@@ -28,6 +29,9 @@ export default function App(){
           options={{title: null, headerTransparent: true, headerShown: false}}
           />
           <Stack.Screen name = 'Opcoes' component={Opcoes}
+          options={{title: null, headerTransparent: true, headerShown: false}}
+          />
+          <Stack.Screen name = 'EditPerfil' component={EditarPerfil}
           options={{title: null, headerTransparent: true, headerShown: false}}
           />
         </Stack.Navigator>

@@ -29,7 +29,7 @@ function Opcoes(){
     return(
         <TouchableOpacity style={styles1.opcoes}
             onPress={() => navigation.navigate('Opcoes')}>
-            <Icone name= 'bars' color='#304FFE' size={18}/>
+            <Icone name= 'bars' color='#FFFFFF' size={18}/>
         </TouchableOpacity>
     )
 }
@@ -37,7 +37,7 @@ function Opcoes(){
 export default class Menu extends Component{
     render(){
         return(
-            <View>
+            <View style={styles1.conteiner}>
                 <Text style={styles1.barrinha}> </Text>
                 <Text style={styles1.barrinha2}> </Text>
                 <Voltar/>
