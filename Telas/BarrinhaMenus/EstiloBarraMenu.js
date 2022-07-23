@@ -29,7 +29,7 @@ const styles1 = StyleSheet.create({
         top: 12,
         left: 170
     },opcoes:{
-        backgroundColor:'#C6CEFF',
+        backgroundColor:'#304FFE',
         justifyContent: 'center',
         alignItems: 'center',
         width: 48,
