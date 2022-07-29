@@ -1,57 +1,29 @@
-import React, { Component, useState } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView} from "react-native";
-
-function Foto1({click}){
-    return(
-        <View style={[styles.conteinerFoto, {top: 213, left: 28}, click ? styles.FotoAtivada : null]}>
-            <Image source={require('../../scr/assets/6.png')}></Image>
-        </View>
-    )
-}
-
-function Foto2({click}){
-    return(
-        <View style={[styles.conteinerFoto, {top: 213, left: 148}, click ? styles.FotoAtivada : null]}>
-            <Image source={require('../../scr/assets/6.png')}></Image>
-        </View>
-    )
-}
-
-function Foto3({click}){
-    return(
-        <View style={[styles.conteinerFoto, {top: 213, left: 267}, click ? styles.FotoAtivada : null]}>
-            <Image source={require('../../scr/assets/6.png')}></Image>
-        </View>
-    )
-}
-
-function Foto4({click}){
-    return(
-        <View style={[styles.conteinerFoto, {top: 324, left: 28}, click ? styles.FotoAtivada : null]}>
-            <Image source={require('../../scr/assets/6.png')}></Image>
-        </View>
-    )
-}
-
-function Foto5({click}){
-    return(
-        <View style={[styles.conteinerFoto, {top: 324, left: 148}, click ? styles.FotoAtivada : null]}>
-            <Image source={require('../../scr/assets/6.png')}></Image>
-        </View>
-    )
-}
-
-function Foto6({click}){
-    return(
-        <View style={[styles.conteinerFoto, {top: 324, left: 267}, click ? styles.FotoAtivada : null]}>
-            <Image source={require('../../scr/assets/6.png')}></Image>
-        </View>
-    )
-}
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
+import api from "../../scr/services/Api";
+import { Alert } from "react-native";
+import  Icon  from 'react-native-vector-icons/Entypo';
 
 
-export default function AlterarFT(){
-    const [id, setId] = useState(0);
+
+export default function AlterarFT({ visible, photo, photoId }){
+    const [chooseFT, setChooseFT] = useState()
+    const [isLoad, setIsLoad] = useState(true)
+
+
+    const getFotos = async () => {
+
+        await api.get("/photos")
+            .then((res) => setChooseFT(res?.data))
+            .catch(err => console.log('erro no get da fotos '))
+            .finally(() => setIsLoad(false))
+    }
+
+    useEffect(() => {
+        getFotos()
+    }, [])
+
+    const [id, setId] = useState(photo);
 
     const clicado = (id, key) => {
         setId(key);
@@ -59,27 +31,49 @@ export default function AlterarFT(){
         setId(0)
     }
 }
+
+const putPhoto = async () => {
+    await api.put('/user', {
+        "user": {
+            "photo_id": id || photoId
+        }
+    }).then(visible)
+    .catch(err => console.log('deu erro ' + err))
+}
+
     return(
-        <>
-            <TouchableOpacity onPress={() => clicado(id, 1)}>
-                <Foto1 click={id === 1}/>
+        <View style={styles.conteinerModal}>
+            <TouchableOpacity style={styles.xBotao}
+                onPress={visible}>
+                <Icon name='cross' color={'#304FFE'} size={25}/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => clicado(id, 2)}>
-                <Foto2 click={id === 2}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => clicado(id, 3)}>
-                <Foto3 click={id === 3}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => clicado(id, 4)}>
-                <Foto4 click={id === 4}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => clicado(id, 5)}>
-                <Foto5 click={id === 5}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => clicado(id, 6)}>
-                <Foto6 click={id === 6}/>
-            </TouchableOpacity>
-            </>
+            <Text style={styles.textoModal}>Selecione a foto de perfil</Text>
+            <View style={styles.conteinerCima}>
+                {chooseFT?.slice(0, 3).map(fotoESC => {
+                    return (
+                        <TouchableOpacity key={fotoESC.id} onPress={() => clicado(id, fotoESC.id)}>
+                            <View style={[styles.conteinerFoto, id === fotoESC.id ? styles.FotoAtivada : null]}>
+                                <Image style={styles.foto} source={{ uri: `${api.defaults.baseURL}${fotoESC.url}` }}/>
+                            </View>
+                        </TouchableOpacity>
+                    );
+                })}
+            </View>
+            <View style={styles.conteinerBaixo}>
+                {chooseFT?.slice(3, 6).map(fotoESC => {
+                return (
+                    <TouchableOpacity key={fotoESC.id} onPress={() => clicado(id, fotoESC.id)}>
+                        <View style={[styles.conteinerFoto, id === fotoESC.id ? styles.FotoAtivada : null]}>
+                            <Image style={styles.foto} source={{ uri: `${api.defaults.baseURL}${fotoESC.url}` }}/>
+                        </View>
+                    </TouchableOpacity>
+                    );
+                })}
+            </View>
+                <TouchableOpacity style={styles.confirmarModal} onPress={() => putPhoto()}>
+                    <Text style={[{color: 'white', fontWeight: '900', fontSize: 15 }]}>CONFIRMAR</Text>
+                </TouchableOpacity>
+        </View>
     )
 }
 
@@ -92,6 +86,55 @@ const styles = StyleSheet.create({
     }, FotoAtivada:{
         backgroundColor: '#304FFE',
         borderColor: '#304FFE',
-        borderRadius: 50
+        borderRadius: 60
+    }, conteinerCima: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        top: 213,
+        right: 50,
+        width: 380
+    }, conteinerBaixo:{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        top: 334,
+        right: 50,
+        width: 380
+    }, conteinerModal:{
+        width: 428,
+        height: 926,
+        backgroundColor: 'white',
+        position: 'relative'
+    }, textoModal:{
+        position: 'absolute',
+        top: 131,
+        color: 'black',
+        left: 58,
+        fontWeight: '700',
+        fontSize: 24
+    }, confirmarModal:{
+        width: 322,
+        height: 52,
+        left: 32,
+        top: 623,
+        backgroundColor: '#304FFE',
+        borderRadius: 6,
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }, xBotao:{
+        position:'absolute',
+        width: 36,
+        height: 36,
+        top: 32,
+        paddin: 8,
+        borderRadius: 10,
+        backgroundColor: '#C6CEFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        left: 33
+    }, foto:{
+        width: 100,
+        height: 100
     }
+    
 })

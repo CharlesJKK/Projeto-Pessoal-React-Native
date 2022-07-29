@@ -1,23 +1,17 @@
-import React, {Component} from 'react';
-import {Text, View, Image, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, Image, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import styles from './EstiloL'
-import { useNavigation } from '@react-navigation/core'
-
-function BotaoLogin(){
-  const navigation = useNavigation();
-  return(
-    <TouchableOpacity style={styles.botao2}
-    onPress={() => navigation.navigate('Humores')}>
-        <Text style={styles.entrar}>ENTRAR</Text>
-    </TouchableOpacity>   
-  )
-}
+import AutentApi from './AuntentApi';
 
 
-export default class TelaLogin extends Component{
-  render(){
+
+export default function TelaLogin({ navigation }){
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { entrar } = AutentApi(email, password, navigation);
     return(
-      <View style={styles.conteiner}>
+      <KeyboardAvoidingView style={styles.conteiner} behavior= 'position' keyboardVerticalOffset={28}>
         <Image
             style={styles.logo}
             source={require('../scr/assets/logo.png')}/>
@@ -25,8 +19,10 @@ export default class TelaLogin extends Component{
           <TextInput 
             placeholderTextColor="#969696"
             placeholder="  e-mail"
+            keyboardType='email-address'
             style={styles.botao}
-            color= '#000000'/>
+            color= '#000000'
+            onChangeText={value => setEmail(value)}/>
         </View>
         <View>
           <TextInput 
@@ -34,10 +30,13 @@ export default class TelaLogin extends Component{
               secureTextEntry={true}
               placeholderTextColor="#969696"   
               placeholder="  senha"
-              color= '#000000'/>
+              color= '#000000'
+              onChangeText={value => setPassword(value)}/>
         </View>
-        <BotaoLogin/>     
-      </View>
+        <TouchableOpacity style={styles.conteinerEntrar}
+            onPress={() => entrar()}>
+            <Text style={styles.entrar}>ENTRAR</Text>
+        </TouchableOpacity>   
+      </KeyboardAvoidingView>
     )
   }
-}

@@ -1,20 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, Modal, Pressable } from "react-native";
 import Menu from "../BarrinhaMenus/barraMenu";
 import { useNavigation } from '@react-navigation/native';
+import api from "../scr/services/Api";
+import { formatoData } from "./componentesEditPerfil/formatoData";
 
-function EditarP(){
-    const navigation = useNavigation();
-    return(
-        <TouchableOpacity style={styles.conteinerEditPerfil} 
-        onPress={() => navigation.navigate('EditPerfil')}>
-            <Text style={[styles.textoBold, {color: 'white'}]}>EDITAR PERFIL</Text>
-        </TouchableOpacity>
-    )
-}
 
-export default function Opcoes(){
+
+export default function Opcoes({ navigation }){
     const [modalActive, setModalActive] = useState(false);
+    const [user, setUser] = React.useState('');
+    const [foto, setFotos] = React.useState('')
+    const [birthdate, setBirthdate] = useState({});
+    
+    React.useEffect(() => {
+        async function getUsuario() {
+          const response = await api.get("/user");
+          setUser(response.data);
+          setBirthdate(formatoData(response?.data?.birthdate))
+          setFotos(response?.data?.photo?.url)
+        }
+        getUsuario();
+      }, []);
+
+      const genes = {
+        male: 'Masculino',
+        female: 'Feminino',
+        other: 'Outro'
+    }
+
+      const url = `${api.defaults.baseURL}${foto}`
+
+      const dataNascimento = `${birthdate.dia1}/${birthdate.mes}/${birthdate.ano}`;
+
         return(
             <>
             <View style={styles.fundo}>
@@ -29,23 +47,36 @@ export default function Opcoes(){
                         <Pressable onPress={() => setModalActive(false)} style={[styles.pressionarModal, {left: 199}]}>
                             <Text style={[{color: 'black', fontWeight: '700', fontSize: 18}]}>CANCELAR</Text>
                         </Pressable>
-                        <Pressable onPress={() => setModalActive(false)} style={[styles.pressionarModal, {left: 319}]}>
+                        <Pressable onPress={() => navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Login' }]})}
+                            style={[styles.pressionarModal, {left: 319}]}>
                             <Text style={[{color: 'black', fontWeight: '700', fontSize: 18}]}>SIM</Text>
                         </Pressable>
                     </View>
                 </Modal>
                 <View style={styles.conteinerFoto}>
-                    <Image source={require('../scr/assets/12.png')} style={styles.foto}></Image>
+                    <Image source={{uri: url}} style={styles.foto}></Image>
                 </View>
                 <View style={styles.conteinerNome}>
-                    <Text style={styles.textoNome}>Olá, Fulana</Text>
+                    <Text style={styles.textoNome}>Olá, {user.name}</Text>
                 </View>
                 <View style={styles.conteinerInformacoes}>
-                    <Text style={[styles.textoBold,{color: 'black'}]}>E-MAIL: <Text style={styles.semibold}>teste@gmail.com</Text> </Text>
-                    <Text style={[styles.textoBold,{color: 'black'}]}>GÊNERO: <Text style={styles.semibold}>Masculino</Text> </Text>
-                    <Text style={[styles.textoBold,{color: 'black'}]}>DATA DE NASCIMENTO: <Text style={styles.semibold}>15/12/1998</Text> </Text>
+                    <Text style={[styles.textoBold,{color: 'black'}]}>E-MAIL: <Text style={styles.semibold}>{user.email}</Text> </Text>
+                    <Text style={[styles.textoBold,{color: 'black'}]}>GÊNERO: <Text style={[styles.semibold, {textTransform: 'capitalize'}]}>{genes[user.gender]}</Text> </Text>
+                    <Text style={[styles.textoBold,{color: 'black'}]}>DATA DE NASCIMENTO: <Text style={styles.semibold}>{dataNascimento}</Text> </Text>
                 </View>
-                <EditarP/>
+                <TouchableOpacity style={styles.conteinerEditPerfil} 
+                    onPress={() => navigation.navigate('EditPerfil',{
+                        name: user.name,
+                        email: user.email,
+                        gender: genes[user.gender],
+                        birthdate: dataNascimento,
+                        photo: url,
+                        photoId: user.photo
+                    })}>
+                    <Text style={[styles.textoBold, {color: 'white'}]}>EDITAR PERFIL</Text>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.conteinerSair} onPress={() => setModalActive(true)}>
                     <Text style={[styles.textoBold, {color: 'black'}]}>SAIR</Text>
                 </TouchableOpacity>
@@ -141,5 +172,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         textAlign: 'center',
         top: 147
+    }, foto:{
+        width: 128,
+        height: 129
     }
 })

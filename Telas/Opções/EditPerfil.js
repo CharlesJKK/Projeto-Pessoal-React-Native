@@ -1,9 +1,10 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Modal, Pressable} from "react-native";
 import Menu from "../BarrinhaMenus/barraMenu";
 import { useNavigation } from '@react-navigation/native';
 import AlterarFT from "./componentesEditPerfil/EscolherIMG";
 import  Icon  from 'react-native-vector-icons/Entypo';
+import api from "../scr/services/Api";
 
 function SalvarBotao(){
     const navigation = useNavigation();
@@ -15,35 +16,29 @@ function SalvarBotao(){
     )
 }
 
-export default function EditarPerfil(){
+export default function EditarPerfil({route}){
     const [modalActive, setModalActive] = useState(false);
+    const { name, email, gender, birthdate, photo, photoId} = route.params;
+
     return(
         <KeyboardAvoidingView       
-        behavior="position"
-        style={styles.conteinerFundo}>
+        behavior='position'
+        style={styles.conteinerFundo}
+        keyboardVerticalOffset={28}>
             <Modal
                 animationType='slide'
                 transparent={true}
                 visible={modalActive}
-                onRequestClose={() => setModalActive(false)}>
-                <View style={styles.conteinerModal}>
-                    <TouchableOpacity style={styles.xBotao}
-                        onPress={() => setModalActive(false)}>
-                        <Icon name='cross' color={'#304FFE'} size={25}/>
-                    </TouchableOpacity>
-                    <Text style={styles.textoModal}>Selecione a foto de perfil</Text>
-                    <AlterarFT/>
-                    <TouchableOpacity style={styles.confirmarModal} onPress={() => setModalActive(false)}>
-                        <Text style={[{color: 'white', fontWeight: '900', fontSize: 15 }]}>CONFIRMAR</Text>
-                    </TouchableOpacity>
-                </View>
+                onRequestClose={() => setModalActive(!modalActive)}>
+            <AlterarFT photoId={photoId} visible={() => setModalActive(!modalActive)}/>
             </Modal>
             <View style={styles.conteinerFoto}>
-                <Image source={require('../scr/assets/12.png')}/>
+                <Image source={{uri: photo}} style={styles.foto}/>
             </View>
             <View style={[styles.conteinersTexto, {top: 326}]}>
                 <Text style={styles.textosInfo}>NOME</Text>
                 <TextInput
+                    defaultValue={name}
                     placeholderTextColor="#969696"
                     placeholder="NOME"
                     color= '#000000'
@@ -53,6 +48,7 @@ export default function EditarPerfil(){
             <View style={[styles.conteinersTexto, {top: 404}]}>
                 <Text style={styles.textosInfo}>E-MAIL</Text>
                 <TextInput
+                    defaultValue={email}
                     placeholderTextColor="#969696"
                     placeholder="E-MAIL"
                     color= '#000000'
@@ -62,6 +58,7 @@ export default function EditarPerfil(){
             <View style={[styles.conteinersTexto, {top: 482}]}>
                 <Text style={styles.textosInfo}>GÊNERO</Text>
                 <TextInput
+                    defaultValue={gender}
                     placeholderTextColor="#969696"
                     placeholder="GÊNERO"
                     color= '#000000'
@@ -70,7 +67,8 @@ export default function EditarPerfil(){
             </View>
             <View style={[styles.conteinersTexto, {top: 560}]}>
                 <Text style={styles.textosInfo}>DATA DE NASCIMENTO</Text>
-                <TextInput                    
+                <TextInput                  
+                    defaultValue={birthdate}  
                     placeholderTextColor="#969696"
                     placeholder="DD/MM/AAAA"
                     color= '#000000'
@@ -179,6 +177,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         left: 33
+    }, foto:{
+        width: 128,
+        height: 129
     }
     
 })
