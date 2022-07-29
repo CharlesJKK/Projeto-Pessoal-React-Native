@@ -52,7 +52,7 @@ function Festa({click}){
     return(
         <View style={[styles.fundoAtividade, click ? styles.fundoAtividadeAtivado : null]}>
             <Icon name='drink' size={30} style={[styles.corIcon, click ? {color: '#FFFFFF'} : null]}></Icon>
-            <Text style={styles.textoicon}>boa refeição</Text>
+            <Text style={styles.textoicon}>festa</Text>
         </View>
     )
 }
