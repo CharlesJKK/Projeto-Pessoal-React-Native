@@ -70,7 +70,7 @@ export default function Opcoes({ navigation }){
                     onPress={() => navigation.navigate('EditPerfil',{
                         name: user.name,
                         email: user.email,
-                        gender: genes[user.gender],
+                        gender: user.gender,
                         birthdate: dataNascimento,
                         photo: url,
                         photoId: user.photo

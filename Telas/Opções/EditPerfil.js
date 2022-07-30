@@ -1,24 +1,30 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Modal, Pressable} from "react-native";
 import Menu from "../BarrinhaMenus/barraMenu";
-import { useNavigation } from '@react-navigation/native';
 import AlterarFT from "./componentesEditPerfil/EscolherIMG";
 import  Icon  from 'react-native-vector-icons/Entypo';
 import api from "../scr/services/Api";
 
-function SalvarBotao(){
-    const navigation = useNavigation();
-    return(
-        <TouchableOpacity style={styles.BSalvar} 
-        onPress={() => navigation.navigate('Opcoes')}>
-            <Text style={[{color: 'white', fontWeight: 'bold',}]}>SALVAR</Text>
-        </TouchableOpacity>
-    )
-}
-
-export default function EditarPerfil({route}){
+export default function EditarPerfil({route, navigation}){
     const [modalActive, setModalActive] = useState(false);
+    const [modalActiveGenero, setModalActiveGenero] = useState(false);
     const { name, email, gender, birthdate, photo, photoId} = route.params;
+    const [selectionGender, setSelectionGender] = useState(gender);
+
+
+      const genes = {
+        male: 'Masculino',
+        female: 'Feminino',
+        other: 'Outro'
+    }
+
+    const putGender = async () => {
+        await api.put('/user', {
+            "user": {
+                "gender": selectionGender,
+            }
+        }).catch(err => console.log('deu erro ' + err))
+    }
 
     return(
         <KeyboardAvoidingView       
@@ -31,6 +37,30 @@ export default function EditarPerfil({route}){
                 visible={modalActive}
                 onRequestClose={() => setModalActive(!modalActive)}>
             <AlterarFT photoId={photoId} visible={() => setModalActive(!modalActive)}/>
+            </Modal>
+            <Modal
+                animationType='fade'
+                transparent={true}
+                visible={modalActiveGenero}
+                onRequestClose={() => setModalActiveGenero(!modalActiveGenero)}>
+                    
+                <View>
+                    <View style={[styles.caixinhaGeneros, {top: 482}]}>
+                        <TouchableOpacity style={{position:'absolute'}} onPress={() => { setSelectionGender('male'); setModalActiveGenero(!modalActiveGenero)}}>
+                            <Text style={{color:'black', top: 9, left: 15}}>Masculino</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[styles.caixinhaGeneros, {top: 522}]}>
+                    <TouchableOpacity style={{position:'absolute'}} onPress={() => { setSelectionGender('female'); setModalActiveGenero(!modalActiveGenero)}}>
+                            <Text style={{color:'black', top: 10, left: 15}}>Feminino</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[styles.caixinhaGeneros, {top: 560}]}>
+                    <TouchableOpacity style={{position:'absolute'}} onPress={() => { setSelectionGender('other'); setModalActiveGenero(!modalActiveGenero)}}>
+                            <Text style={{color:'black', top: 10, left: 15}}>Outro</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </Modal>
             <View style={styles.conteinerFoto}>
                 <Image source={{uri: photo}} style={styles.foto}/>
@@ -57,13 +87,10 @@ export default function EditarPerfil({route}){
             </View>
             <View style={[styles.conteinersTexto, {top: 482}]}>
                 <Text style={styles.textosInfo}>GÊNERO</Text>
-                <TextInput
-                    defaultValue={gender}
-                    placeholderTextColor="#969696"
-                    placeholder="GÊNERO"
-                    color= '#000000'
-                    style={[{left: 10}]}
-                 />
+                <Text style={{color: 'black', position: 'absolute', bottom: 15, left: 15}}>{genes[selectionGender]}</Text>
+                <TouchableOpacity onPress={() => setModalActiveGenero(true)}>
+                    <Icon name="chevron-down" style={{color: 'black', left: 270 }} size={40}></Icon>
+                </TouchableOpacity>
             </View>
             <View style={[styles.conteinersTexto, {top: 560}]}>
                 <Text style={styles.textosInfo}>DATA DE NASCIMENTO</Text>
@@ -79,7 +106,9 @@ export default function EditarPerfil({route}){
                 <View style={styles.bordinha}></View>
                     <Text style={[{color: '#304FFE', fontWeight: '900', fontSize: 15}]}>ALTERAR FOTO</Text>
             </TouchableOpacity>
-            <SalvarBotao/>
+            <TouchableOpacity style={styles.BSalvar} onPress={() => putGender()}>
+                <Text style={[{color: 'white', fontWeight: 'bold',}]}>SALVAR</Text>
+            </TouchableOpacity>
         <View style={styles.menu}>
             <Menu/>
         </View>
@@ -180,6 +209,14 @@ const styles = StyleSheet.create({
     }, foto:{
         width: 128,
         height: 129
+    }, caixinhaGeneros:{
+        width: 322,
+        height: 45,
+        position: 'absolute',
+        left: 35,
+        borderWidth: 1,
+        borderColor: 'black',
+        backgroundColor: '#FFFFFF'
     }
     
 })

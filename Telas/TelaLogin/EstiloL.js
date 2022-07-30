@@ -8,8 +8,7 @@ const styles = StyleSheet.create({
       },logo:{    
             width: 250,
             height:250,
-            top:90,
-            left: 30
+            top:90
       }, botao:{   
             marginTop:30,
             width: 300,
@@ -29,7 +28,6 @@ const styles = StyleSheet.create({
             justifyContent: 'center',
             elevation: 5,
             shadowColor: '#000000',
-            left: 80
     },  entrar: {
             color:'#304FFE',
             width: 56,

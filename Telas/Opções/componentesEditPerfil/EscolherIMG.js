@@ -15,7 +15,7 @@ export default function AlterarFT({ visible, photo, photoId }){
 
         await api.get("/photos")
             .then((res) => setChooseFT(res?.data))
-            .catch(err => console.log('erro no get da fotos '))
+            .catch(err => console.log('Ops! Algo deu errado'))
             .finally(() => setIsLoad(false))
     }
 

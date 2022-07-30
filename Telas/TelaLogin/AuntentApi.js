@@ -49,6 +49,6 @@ export default function AutentApi(email, password, navigation) {
         }
     }
 
-    return { entrar }
+    return { entrar, formatInvalid }
 
 }

@@ -25,10 +25,11 @@ function BotaoSalvar(){
     </TouchableOpacity>
     )
 }
-
+const mes = new Array("janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "outubro", "novembro", "dezembro")
+const datinha = new Date;
 
 function AddH(){
-
+    const [description, setDescription] = useState('')
     return(
             <View style={styles.conteinerFundo}>
                 <BotaoX/>
@@ -38,11 +39,11 @@ function AddH(){
                 <View style={styles.conteinerDataeHora}>
                     <View style={styles.alinhamentoData}>
                         <Image source={require('../scr/assets/calendariozinho.png')}/>
-                        <Text style={styles.textoDH}>HOJE, 23 DE JANEIRO</Text>
+                        <Text style={[styles.textoDH, {textTransform: 'uppercase'}]}>{`Hoje, ${datinha.getDate()} de ${mes[datinha.getMonth()]}`}</Text>
                     </View>
                     <View style={styles.alinhamentoHora}>
                         <Image source={require('../scr/assets/relogiozinho.png')}/>
-                        <Text style={styles.textoDH}>08:35</Text>
+                        <Text style={styles.textoDH}>{`${datinha.getHours()}:${datinha.getMinutes()}`}</Text>
                     </View>
                 </View>
                 <View style={styles.conteinerHumores}>
@@ -54,6 +55,7 @@ function AddH(){
                     placeholderTextColor="#969696"   
                     placeholder="  Escreva aqui o que aconteceu hoje..."
                     color= '#000000'
+                    onChangeText={value => setDescription(value)}
                 />
                 <BotaoSalvar/>
             </View>
